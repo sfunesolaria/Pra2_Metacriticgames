@@ -1,0 +1,72 @@
+---
+title: 'PRA2: Metacritic games stats'
+author: "Sergio Funes Olaria"
+date: ""
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval=T,echo = TRUE)
+```
+
+# 1. Presentación de la visualización
+
+
+
+\newpage
+
+# 2. Explicación de la visualización
+
+
+
+\newpage
+
+# 3. Descripción técnica del proyecto: lenguajes, librerías, licencias, código y datos
+
+```{r}
+#data <- read.csv("../data/metacritic_games.csv", header = TRUE, stringsAsFactors = TRUE, na.strings = "")
+data <- read.csv("../data/metacritic_games.csv", header = TRUE, na.strings = "")
+head(data)
+```
+
+```{r}
+library(lubridate)
+
+data$platform <- as.factor(data$platform)
+data$genre <- as.factor(data$genre)
+data$number_players <- as.factor(data$number_players)
+data$rating <- as.factor(data$rating)
+data$release_date <- as.Date(parse_date_time(data$release_date, orders=c("mdy")))
+
+```
+
+```{r}
+sapply(data, function(x) sum(is.na(x)))
+```
+
+```{r}
+suppressWarnings(suppressMessages(library(VIM)))
+
+data$developer <- kNN(data)$developer
+data$genre <- kNN(data)$genre
+data$number_players <- kNN(data)$number_players
+data$rating <- kNN(data)$rating
+```
+
+```{r}
+sapply(data, function(x) sum(is.na(x)))
+```
+
+```{r}
+write.csv(data, "../data/metacritic_games_clean.csv")
+```
+
+\newpage
+
+# 4. Visualización de datos
+
+```{r}
+
+```
