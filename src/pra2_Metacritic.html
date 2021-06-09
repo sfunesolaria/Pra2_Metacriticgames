@@ -166,21 +166,88 @@ pre code {
 
 <h1 class="title toc-ignore">PRA2: Metacritic games stats</h1>
 <h4 class="author">Sergio Funes Olaria</h4>
-<h4 class="date">9/6/2021</h4>
 
 </div>
 
 
-<div style="page-break-after: always;"></div>
 <div id="presentación-de-la-visualización" class="section level1">
 <h1>1. Presentación de la visualización</h1>
 <div style="page-break-after: always;"></div>
 </div>
 <div id="explicación-de-la-visualización" class="section level1">
 <h1>2. Explicación de la visualización</h1>
+<div style="page-break-after: always;"></div>
 </div>
 <div id="descripción-técnica-del-proyecto-lenguajes-librerías-licencias-código-y-datos" class="section level1">
 <h1>3. Descripción técnica del proyecto: lenguajes, librerías, licencias, código y datos</h1>
+<pre class="r"><code>#data &lt;- read.csv(&quot;../data/metacritic_games.csv&quot;, header = TRUE, stringsAsFactors = TRUE, na.strings = &quot;&quot;)
+data &lt;- read.csv(&quot;../data/metacritic_games.csv&quot;, header = TRUE, na.strings = &quot;&quot;)
+head(data)</code></pre>
+<pre><code>##                                      game platform             developer
+## 1                                Portal 2       PC        Valve Software
+## 2             The Elder Scrolls V: Skyrim       PC Bethesda Game Studios
+## 3 The Legend of Zelda: Ocarina of Time 3D      3DS                GREZZO
+## 4                     Batman: Arkham City       PC    Rocksteady Studios
+## 5                     Super Mario 3D Land      3DS              Nintendo
+## 6               Deus Ex: Human Revolution       PC       Nixxes Software
+##              genre        number_players rating release_date positive_critics
+## 1           Action                  &lt;NA&gt;   E10+ Apr 18, 2011               51
+## 2     Role-Playing No Online Multiplayer      M Nov 10, 2011               32
+## 3    Miscellaneous No Online Multiplayer   E10+ Jun 19, 2011               84
+## 4 Action Adventure                  &lt;NA&gt;      T Nov 21, 2011               27
+## 5           Action No Online Multiplayer      E Nov 13, 2011               81
+## 6           Action No Online Multiplayer      M Aug 23, 2011               52
+##   neutral_critics negative_critics positive_users neutral_users negative_users
+## 1               1                0           1700           107             19
+## 2               0                0           1616           322            451
+## 3               1                0            283            20              5
+## 4               0                0            240            34             27
+## 5               1                0            251            39             11
+## 6               0                0            520           112             78
+##   metascore user_score
+## 1        95         90
+## 2        94         82
+## 3        94         90
+## 4        91         87
+## 5        90         84
+## 6        90         85</code></pre>
+<pre class="r"><code>library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
+<pre class="r"><code>data$platform &lt;- as.factor(data$platform)
+data$genre &lt;- as.factor(data$genre)
+data$number_players &lt;- as.factor(data$number_players)
+data$rating &lt;- as.factor(data$rating)
+data$release_date &lt;- as.Date(parse_date_time(data$release_date, orders=c(&quot;mdy&quot;)))</code></pre>
+<pre class="r"><code>sapply(data, function(x) sum(is.na(x)))</code></pre>
+<pre><code>##             game         platform        developer            genre 
+##                0                0               14                5 
+##   number_players           rating     release_date positive_critics 
+##             2640             1266                0                0 
+##  neutral_critics negative_critics   positive_users    neutral_users 
+##                0                0                0                0 
+##   negative_users        metascore       user_score 
+##                0                0                0</code></pre>
+<pre class="r"><code>suppressWarnings(suppressMessages(library(VIM)))
+
+data$developer &lt;- kNN(data)$developer
+data$genre &lt;- kNN(data)$genre
+data$number_players &lt;- kNN(data)$number_players
+data$rating &lt;- kNN(data)$rating</code></pre>
+<pre class="r"><code>sapply(data, function(x) sum(is.na(x)))</code></pre>
+<pre><code>##             game         platform        developer            genre 
+##                0                0                0                0 
+##   number_players           rating     release_date positive_critics 
+##                0                0                0                0 
+##  neutral_critics negative_critics   positive_users    neutral_users 
+##                0                0                0                0 
+##   negative_users        metascore       user_score 
+##                0                0                0</code></pre>
+<pre class="r"><code>write.csv(data, &quot;../data/metacritic_games_clean.csv&quot;)</code></pre>
+<div style="page-break-after: always;"></div>
 </div>
 <div id="visualización-de-datos" class="section level1">
 <h1>4. Visualización de datos</h1>

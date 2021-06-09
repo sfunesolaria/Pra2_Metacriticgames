@@ -13,17 +13,13 @@ knitr::opts_chunk$set(eval=T,echo = TRUE)
 
 # 1. Presentación de la visualización
 
-```{r}
 
-```
 
 \newpage
 
 # 2. Explicación de la visualización
 
-```{r}
 
-```
 
 \newpage
 
@@ -46,6 +42,26 @@ data$release_date <- as.Date(parse_date_time(data$release_date, orders=c("mdy"))
 
 ```
 
+```{r}
+sapply(data, function(x) sum(is.na(x)))
+```
+
+```{r}
+suppressWarnings(suppressMessages(library(VIM)))
+
+data$developer <- kNN(data)$developer
+data$genre <- kNN(data)$genre
+data$number_players <- kNN(data)$number_players
+data$rating <- kNN(data)$rating
+```
+
+```{r}
+sapply(data, function(x) sum(is.na(x)))
+```
+
+```{r}
+write.csv(data, "../data/metacritic_games_clean.csv")
+```
 
 \newpage
 
