@@ -170,18 +170,9 @@ pre code {
 </div>
 
 
-<div id="presentación-de-la-visualización" class="section level1">
-<h1>1. Presentación de la visualización</h1>
-<div style="page-break-after: always;"></div>
-</div>
-<div id="explicación-de-la-visualización" class="section level1">
-<h1>2. Explicación de la visualización</h1>
-<div style="page-break-after: always;"></div>
-</div>
 <div id="descripción-técnica-del-proyecto-lenguajes-librerías-licencias-código-y-datos" class="section level1">
 <h1>3. Descripción técnica del proyecto: lenguajes, librerías, licencias, código y datos</h1>
-<pre class="r"><code>#data &lt;- read.csv(&quot;../data/metacritic_games.csv&quot;, header = TRUE, stringsAsFactors = TRUE, na.strings = &quot;&quot;)
-data &lt;- read.csv(&quot;../data/metacritic_games.csv&quot;, header = TRUE, na.strings = &quot;&quot;)
+<pre class="r"><code>data &lt;- read.csv(&quot;../data/metacritic_games.csv&quot;, header = TRUE, na.strings = &quot;&quot;)
 head(data)</code></pre>
 <pre><code>##                                      game platform             developer
 ## 1                                Portal 2       PC        Valve Software
@@ -211,17 +202,17 @@ head(data)</code></pre>
 ## 4        91         87
 ## 5        90         84
 ## 6        90         85</code></pre>
+<pre class="r"><code>data$platform &lt;- as.factor(data$platform)
+data$genre &lt;- as.factor(data$genre)
+data$number_players &lt;- as.factor(data$number_players)
+data$rating &lt;- as.factor(data$rating)</code></pre>
 <pre class="r"><code>library(lubridate)</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;lubridate&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:base&#39;:
 ## 
 ##     date, intersect, setdiff, union</code></pre>
-<pre class="r"><code>data$platform &lt;- as.factor(data$platform)
-data$genre &lt;- as.factor(data$genre)
-data$number_players &lt;- as.factor(data$number_players)
-data$rating &lt;- as.factor(data$rating)
-data$release_date &lt;- as.Date(parse_date_time(data$release_date, orders=c(&quot;mdy&quot;)))</code></pre>
+<pre class="r"><code>data$release_date &lt;- as.Date(parse_date_time(data$release_date, orders=c(&quot;mdy&quot;)))</code></pre>
 <pre class="r"><code>sapply(data, function(x) sum(is.na(x)))</code></pre>
 <pre><code>##             game         platform        developer            genre 
 ##                0                0               14                5 
@@ -247,10 +238,6 @@ data$rating &lt;- kNN(data)$rating</code></pre>
 ##   negative_users        metascore       user_score 
 ##                0                0                0</code></pre>
 <pre class="r"><code>write.csv(data, &quot;../data/metacritic_games_clean.csv&quot;)</code></pre>
-<div style="page-break-after: always;"></div>
-</div>
-<div id="visualización-de-datos" class="section level1">
-<h1>4. Visualización de datos</h1>
 </div>
 
 
